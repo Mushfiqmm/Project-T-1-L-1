@@ -1,0 +1,165 @@
+mushfiq
+1984
+2205028
+1709009874
+1
+shafin
+War and peace
+2205001
+1700911449
+6
+monazir
+Clarissa
+2205023
+1700339460
+15
+mushfiq
+War and peace
+2205028
+1709914260
+6
+sid
+Clarissa
+2205004
+1709914281
+15
+saif
+Tom Jones
+2205006
+1709914289
+16
+shafin
+Sybil
+2205001
+1709000303
+20
+shafin
+Nightmare Abbey
+2205001
+1709904312
+19
+abid
+Roots
+2205027
+1709914617
+13
+saber
+Sybil
+2205019
+1709914629
+20
+Al Amin
+Crime and punishment
+2205034
+1710360205
+2
+Inteser
+Pride and Prejudice
+2205002
+1710360929
+0
+sohail
+King lear
+2205040
+1710392624
+8
+yousha
+Pilgrim's Progress 
+2205041
+1710392636
+10
+rafiul
+Native Son
+2205042
+1710392644
+12
+zawad
+Tom Jones
+2205043
+1700092662
+16
+Adnan
+Roots
+2205045
+1710392696
+13
+ishmam
+Emma
+2205046
+1710392709
+17
+Rokan
+Sybil
+2205047
+1710392720
+20
+Tahmid
+The Scarlet Letter
+2205048
+1710392735
+23
+Zareef
+In Cold Blood
+2205049
+1710392757
+47
+Azmain
+Remembrance of Things Past
+2205050
+1710392777
+44
+Shoriful
+Brave New World
+2205051
+1710392812
+41
+Rubel
+Nightmare Abbey
+2205052
+1710392865
+19
+Nafisul
+The Fault in our Stars
+2205054
+1709602900
+45
+Mahin
+Number the Stars
+2205055
+1710392927
+39
+Rawnak
+Noli Me Tangere
+2205057
+1710392949
+40
+ohin
+Native Son
+2205059
+1710396727
+12
+Riasad
+Gulliver’s Travels
+2205060
+1710396742
+14
+Farhan
+Gulliver’s Travels
+2205061
+1710396761
+14
+Rafid
+Frankenstein
+2205062
+1710396770
+18
+abid
+Crime and punishment
+2205027
+1710400589
+2
+Mushfiq
+Harry Potter
+2205028
+1710405090
+50

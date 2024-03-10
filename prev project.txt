@@ -1,0 +1,512 @@
+# include "iGraphics.h"
+#include <string.h>
+int screenwidth=768,screenheight=576;
+struct buttoncordinate
+{
+	int x;
+	int y;
+}bCordinate[2];
+struct students
+{
+	char name[100];
+	char bname[100];
+	char  date[100];
+};
+students stds[50];
+char str[2][1000];
+//char str[1000];
+int d;
+int g=0;
+bool musicON=true;
+int gmstate=0;
+int len=0;
+char buff[10][100];
+char anima[7][100]={"animation\\a1.bmp", "animation\\a2.bmp", "animation\\a3.bmp", "animation\\a4.bmp", "animation\\a5.bmp", "animation\\a6.bmp", "animation\\a7.bmp" };
+void showchar()
+{
+	iSetColor(0,0,0);
+	iFilledRectangle(350,50,400,400);
+	iSetColor(255,255,255);
+	iRectangle(340,45,420,410);
+	iSetColor(200,200,200);
+    iText(400,400,"enter your name:",GLUT_BITMAP_HELVETICA_18);
+	iRectangle(495, 350, 160, 30);
+	iText(500,360,str[0],GLUT_BITMAP_HELVETICA_18);
+	// iText(400,300,"enter book name:",GLUT_BITMAP_HELVETICA_18);
+	// iRectangle(495, 250, 160, 30);
+	//iText(500,260,str,GLUT_BITMAP_HELVETICA_18);
+	iText(400,300,"enter date:",GLUT_BITMAP_HELVETICA_18);
+	iRectangle(495, 250, 160, 30);
+	//
+	iText(500,260,str[1],GLUT_BITMAP_HELVETICA_18);
+	iSetColor(0,0,0);
+	iFilledCircle(340, 460, 20, 100);
+	iSetColor(255,255,255);
+	iLine(330 ,470 ,350 ,450 );
+	iLine(330 ,450 ,350 ,470 );
+}
+char strb[100];
+int add=0;
+void convsum()
+{
+	int num = 0, i = 0;
+	while(str[1][i]!=0)
+	{
+		num = num*10 + (str[1][i] - '0');
+		i++; 
+	}
+	num+=7;
+	i=0;
+	do
+	{
+		str[1][i] = num %10 + '0';
+		num /=10;
+		i++;
+	}while(num !=0);
+    for(int i =0; i<strlen(str[1])/2;i++)
+	{
+     int t=str[1][i];
+	 str[1][i]=str[1][strlen(str[1])-1-i];
+	 str[1][strlen(str[1])-1-i]=t;
+	}
+}
+int rw;
+void rewrite()  ////return
+{
+   	FILE *ptr;
+   	ptr=fopen("record.txt","w");
+   	// fputs(stds[0].name, ptr);
+	// fputs(stds[0].bname,ptr);
+	// fputs(stds[0].date,ptr);
+	int k=0;
+	//for(int k =1; stds[k-1].name[0]!=0;k++)
+	do	
+	{
+		if(k!=rw)
+		{
+		fputs(stds[k].name, ptr);
+	    fputs(stds[k].bname,ptr);
+		fputs(stds[k].date,ptr);
+		}
+	}while (stds[k++].name[0]!=0);
+	stds[k-2].name[0]=0;
+	stds[k-2].bname[0]=0;
+	stds[k-2].date[0]=0;
+
+	fclose(ptr);
+	
+}
+void ADD()
+{
+	iSetColor(0,0,0);
+	iFilledRectangle(350,50,400,400);
+	iSetColor(255,255,255);
+	iRectangle(340,45,420,410);
+	iSetColor(200,200,200);
+	iText(400,400,"enter book name:",GLUT_BITMAP_HELVETICA_18);
+	iRectangle(495, 350, 160, 30);
+	iText(500,360,strb,GLUT_BITMAP_HELVETICA_18);
+	iSetColor(0,0,0);
+	iFilledCircle(340, 460, 20, 100);
+	iSetColor(255,255,255);
+	iLine(330 ,470 ,350 ,450 );
+	iLine(330 ,450 ,350 ,470 );
+}
+int m=-1;
+int i=0;
+void takein()
+{
+	//strcpy(stds[i].name,str);
+	//strcpy(stds[i].bname,buff[m]);
+	convsum();
+	FILE *ptr;
+	ptr = fopen("record.txt","a");
+	fprintf(ptr, "%s\n", str[0]);
+	fprintf(ptr,"%s",buff[m]);
+	fprintf(ptr,"%s\n",str[1]);
+	fclose(ptr);
+	//strcpy(stds[i].bname,str[1]);
+	//stds[i].date=d;
+}
+int j=0;
+
+
+void takeinb()
+{
+	FILE *ptr;
+	ptr = fopen("catalogue.txt","a");
+	fprintf(ptr, "\n%s", strb);
+	fclose(ptr);
+
+}
+void takeinput(unsigned key)
+{
+   if(key == '\r')
+   {
+	 j++;
+	 len=0;
+	 if(j>1)
+	 {
+	 takein();
+	 gmstate=0;
+	 j=0;
+	 i++;
+	 }
+	 //takein();
+     //newhighscore();
+   }
+   else if (key == '\b')
+   {
+	if (len <=0)
+	{
+      len=0;
+	}
+	else{
+		len--;
+	}
+	str[j][len] = '\0';
+   }
+   else{
+	str[j][len] = key;
+	len++;
+	if(len > 18)
+	  len = 18;
+	
+	str[j][len] = '\0';
+   }
+}
+
+int len1=0;
+void takeinputb(unsigned key)
+{
+	if(key == '\r')
+   {
+	 takeinb();
+     add=0;
+     //newhighscore();
+   }
+   else if (key == '\b')
+   {
+	if (len1 <=0)
+	{
+      len1=0;
+	}
+	else{
+		len1--;
+	}
+	strb[len1] = '\0';
+   }
+   else{
+	strb[len1] = key;
+	len1++;
+	if(len1 > 18)
+	  len1 = 18;
+	
+	strb[len1] = '\0';
+   }
+}
+
+
+// void takeinput(unsigned key)
+// {
+//    if(key == '\r')
+//    {
+// 	 takein();
+//      gmstate=0;
+// 	 //i++;
+//      //newhighscore();
+//    }
+//    else if (key == '\b')
+//    {
+// 	if (len <=0)
+// 	{
+//       len=0;
+// 	}
+// 	else{
+// 		len--;
+// 	}
+// 	str[len] = '\0';
+//    }
+//    else{
+// 	str[len] = key;
+// 	len++;
+// 	if(len > 18)
+// 	  len = 18;
+	
+// 	str[len] = '\0';
+//    }
+// }
+int gstate = -1;
+/*
+	function iDraw() is called again and again by the system.
+
+	*/
+char back[200]="img\\back.bmp";
+char borrow[200]="img\\borrow.bmp";
+char catalog[200]="img\\catalog.bmp";
+char record[20]="img\\record.bmp";
+char frontimg[3][20]={"img\\frontpage.bmp","img\\catalogue.bmp","img\\logbook.bmp"};
+
+int jj;
+
+void iDraw() {
+	//place your drawing codes here
+	iClear();
+	if(gstate == -1)
+		{iShowBMP(0,0,frontimg[0]);
+		iShowBMP2(bCordinate[0].x,bCordinate[0].y,frontimg[1],0);
+		iShowBMP2(bCordinate[1].x,bCordinate[1].y,frontimg[2],0);
+		iSetColor(0,0,0);
+		iText(90,112,"record log",GLUT_BITMAP_8_BY_13);
+	}
+	else if(gstate==0)
+	{
+		iShowBMP(0,0,catalog);
+		iShowBMP2(450,480,anima[g],0);
+		iSetColor(0,0,0);
+		iFilledRectangle(600,485,135,45);
+		iText(300,500,"book catalogue",GLUT_BITMAP_TIMES_ROMAN_24);
+		iText( 25, 430, "Books name",GLUT_BITMAP_HELVETICA_18);
+		//iShowBMP2(600,400,borrow,255);
+		iShowBMP2(20,500,back,0);
+		iRectangle(20,10,600,450);
+		iLine(20 ,425 ,620 ,425);
+		//iLine(500, 460, 500, 10);
+		FILE *showcar;
+		showcar = fopen("catalogue.txt","r");
+		fgets(buff[0], 100, showcar);
+		jj=0;
+		for(int i=1;buff[i-1][0]!='\0';i++)
+		{
+		fgets(buff[i] ,100 , showcar);
+		jj++;
+		}
+		fclose(showcar);
+		for(int i=0;i<jj;i++)
+		{
+		iText( 25,400-i*25, buff[i],GLUT_BITMAP_HELVETICA_18);
+		iLine( 20,395-i*25, 620, 395 -i*25);
+		}
+		for(int i=0;i <jj ; i++)
+		{
+			iSetColor(0,0,0);
+			iFilledRectangle( 500, 398-25*i, 100, 20);
+			iSetColor(200,200,200);
+			iText( 520,402-25*i,"borrow", GLUT_BITMAP_HELVETICA_18);
+		}
+		iText(615,500,"ADD BOOKS",GLUT_BITMAP_HELVETICA_18);
+		if(add == 1)
+		{
+			ADD();
+		}
+		if(gmstate==1)
+		{
+			showchar();
+		}
+	}
+	else if(gstate==1)
+	{
+    iShowBMP(0,0,record);
+	iSetColor(0,0,0);
+	iText(300,500,"record book log",GLUT_BITMAP_TIMES_ROMAN_24);
+	iRectangle(30,30,700,400);
+	iLine(264,430,264,30);
+	iLine(498,430,498,30);
+	iLine(30,400,730,400);
+	iText(35,405,"STUDENT NAME",GLUT_BITMAP_HELVETICA_18);
+	iText(275,405,"BOOK NAME",GLUT_BITMAP_HELVETICA_18);
+	iText(505,405,"DUE DATE",GLUT_BITMAP_HELVETICA_18);
+	iShowBMP2(20,500,back,0);
+	// for(int k=0;k<i;k++)
+	// {
+	// iText(35,380-k*20,stds[k].name,GLUT_BITMAP_HELVETICA_18);
+	// }
+	// for(int k=0;k<i;k++)
+	// {
+	// iText(275,380-k*20,stds[k].bname,GLUT_BITMAP_HELVETICA_18);
+	// }
+	FILE *ptr;
+	ptr = fopen("record.txt","r");
+	// fgets(stds[0].name, 100, ptr);
+	// fgets(stds[0].bname,100,ptr);
+	// fgets(stds[0].date,100,ptr);
+	int c=0,k=0;
+	//for(int k =1;fgets(stds[k].name, 100, ptr) !=0;k++) 
+	do
+	{
+		fgets(stds[k].name, 100, ptr);
+	    fgets(stds[k].bname,100,ptr);
+		fgets(stds[k].date,100,ptr);
+		c++;
+	}while(stds[k++].name[0]!=0);
+
+	for(int k=0;k<c;k++)
+	{
+		iText(35,380-k*20,stds[k].name,GLUT_BITMAP_HELVETICA_18);
+		iText(275,380-k*20,stds[k].bname,GLUT_BITMAP_HELVETICA_18);
+		iText(505,380-k*20,stds[k].date,GLUT_BITMAP_HELVETICA_18);
+	}
+	iSetColor(0,0,0);     ///hereee
+	iFilledRectangle(600,400,100,50);  ////hr
+	fclose(ptr);
+	// for(int k=0;k<i;k++)
+	// {
+	// iText(505,380-k*20,str[1],GLUT_BITMAP_HELVETICA_18);
+	// //printf("%d",stds[k].date);
+	// }
+	}
+	else{
+
+	}
+
+}
+
+/*
+	function iMouseMove() is called when the user presses and drags the mouse.
+	(mx, my) is the position where the mouse pointer is.
+	*/
+void iMouseMove(int mx, int my) {
+	printf("x = %d, y= %d\n",mx,my);
+	//x=mx;f
+	//y=my;
+	//place your codes here
+}
+
+/*
+	function iMouse() is called when the user presses/releases the mouse.
+	(mx, my) is the position where the mouse pointer is.
+	*/
+void iMouse(int button, int state, int mx, int my) {
+	
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN) {
+		//place your codes here
+		//	printf("x = %d, y= %d\n",mx,my);
+		for(int i=0;i<2;i++)
+		{if(gstate==-1 && mx>=bCordinate[i].x && mx<=bCordinate[i].x+100 && my>=bCordinate[i].y && my<=bCordinate[i].y+100)
+		{
+			gstate=i;
+		}
+		//x = mx;
+		//y = my;
+		}
+		if(gstate==0||gstate==1)
+		{
+			if(mx>=20 && mx<=70 && my>=500 && my <=550)
+			{
+				gstate=-1;
+				gmstate=0;
+			}
+			// if(gstate==0 && mx>=600 && mx<=680 && my >= 400 && my <= 450)
+			// {
+			// 	gmstate=1;
+			// }
+			for(int i=0;i<jj;i++)
+			{
+				if(gstate==0 && mx>=500 && mx<=600 && my >= 398-25*i && my <= 398-25*i+20)
+				{
+					gmstate=1;
+					m=i;
+					len=0;
+				}
+			}
+			if(gmstate==1 && mx>= 324 && mx<= 352 && my >= 449 && my<= 473)
+			{
+				gmstate=0;
+			}
+			if(gstate==0 && mx >=600 && mx <=735 && my >= 492 && my <=529)
+			{
+				add=1;
+			}
+			if(add==1 && mx>= 324 && mx<= 352 && my >= 449 && my<= 473)
+			{
+				add=0;
+			}
+			if(gstate==1 && mx >=600 && mx <= 700 && my >= 400 && my <=450)  ///hre
+			{
+				rw=1;
+				rewrite();
+			}
+		}
+	}
+	if (button == GLUT_RIGHT_BUTTON && state == GLUT_DOWN) {
+		//place your codes here
+		//x = 300;
+		//y = 300;
+		//gstate=-1;
+	}
+	
+}
+
+void animation()
+{
+	//iShowBMP2(400,400,anima[g],0);
+	g++;
+	if(g==6)
+	{
+		g=0;
+	}
+}
+
+/*
+	function iKeyboard() is called whenever the user hits a key in keyboard.
+	key- holds the ASCII value of the key pressed.
+	*/
+void iKeyboard(unsigned char key) {
+	if(gmstate==1)
+	{
+		takeinput(key);
+	}
+	if (key == 'q') {
+		//exit(0);
+	}
+	if(add == 1)
+	{
+		//len1 = 0;
+		takeinputb(key);
+	}
+	//place your codes for other keys here
+}
+
+/*
+	function iSpecialKeyboard() is called whenver user hits special keys like-
+	function keys, home, end, pg up, pg down, arraows etc. you have to use
+	appropriate constants to detect them. A list is:
+	GLUT_KEY_F1, GLUT_KEY_F2, GLUT_KEY_F3, GLUT_KEY_F4, GLUT_KEY_F5, GLUT_KEY_F6,
+	GLUT_KEY_F7, GLUT_KEY_F8, GLUT_KEY_F9, GLUT_KEY_F10, GLUT_KEY_F11, GLUT_KEY_F12,
+	GLUT_KEY_LEFT, GLUT_KEY_UP, GLUT_KEY_RIGHT, GLUT_KEY_DOWN, GLUT_KEY_PAGE UP,
+	GLUT_KEY_PAGE DOWN, GLUT_KEY_HOME, GLUT_KEY_END, GLUT_KEY_INSERT
+	*/
+void iSpecialKeyboard(unsigned char key) {
+
+	if (key == GLUT_KEY_END) {
+		exit(0);
+	}
+	// if(key == GLUT_KEY_DOWN)
+	// {
+	// 	if(musicON)
+	// 	{
+	// 		musicON=false;
+	// 		PlaySound(0,0,0);
+	// 	}
+	// 	else
+	// 	{
+	// 		musicON=true;
+	// 		//PlaySound("music\\music1.wav",NULL, SND_LOOP | SND_ASYNC);
+	// 	}
+	// }
+
+}
+int main() {
+	int sum=100;
+	iSetTimer(100,animation);
+    for(int i=1;i>=0;i--)
+	{
+		bCordinate[i].x=80;
+		bCordinate[i].y=sum;
+        sum+=200;
+	}
+	//iSetTimer(50,change);
+	//place your own initialization codes here.
+	iInitialize(screenwidth, screenheight, "bismillah");
+	return 0;
+}
